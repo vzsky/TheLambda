@@ -1,6 +1,6 @@
-import Lexer from 'lc-js/src/lexer'
-import Parser from 'lc-js/src/parser'
-import Interpreter from 'lc-js/src/interpreter'
+import Lexer from '../../lc-js/src/lexer'
+import Parser from '../../lc-js/src/parser'
+import Interpreter from '../../lc-js/src/interpreter'
 import { timeLimitPromise } from '../helper'
 
 const evaluate = (formula: string) => (
@@ -9,7 +9,7 @@ const evaluate = (formula: string) => (
       const lexer = new Lexer(formula)
       const parser = new Parser(lexer)
       const ast = parser.parse()
-      return res(Interpreter.eval(ast).toString())
+      return res(Interpreter(ast).toString())
     } catch (e) {
       rej(e)
     }

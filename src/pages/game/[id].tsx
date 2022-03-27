@@ -2,15 +2,36 @@ import type { NextPage } from 'next'
 import { useState } from 'react'
 import { PostApi, createOnChange } from '../../helper'
 import levels from '../../levels/_levels'
+import { Box } from '@chakra-ui/react'
 
 //TODO: edit this import to whatever needed in the future
 // import levelConfig from '../../levels/demo0'
 
-interface GamePage {
+interface IGamePage {
   levelConfig: any
 }
 
-const Game: NextPage<GamePage> = ({levelConfig}) => {
+interface IDict {
+  words: string[]
+}
+
+interface IWord {
+  word: string
+}
+
+const WordButton: React.FunctionComponent<IWord> = ({word}) => (
+  <Box bgColor="orange">
+    {word}
+  </Box>
+)
+
+const LambdaDictionary: React.FunctionComponent<IDict> =  ({words}) => (
+  <Box>
+    {words.map((word, ind) => (<WordButton key={ind} word={word}/>))}
+  </Box>
+)
+
+const Game: NextPage<IGamePage> = ({levelConfig}) => {
   const [param, setParam] = useState<string>("")
   const [exprs, setExprs] = useState<string>("")
   const [compl, setCompl] = useState<boolean>(false)
@@ -36,7 +57,7 @@ const Game: NextPage<GamePage> = ({levelConfig}) => {
   }
 
   return (
-    <div>
+    <Box>
       {(compl?<h1>You are correct</h1>:<h1>Welcome to the game</h1>)}
       <div>
         <p>{levelConfig.taskDescription}</p>
@@ -47,7 +68,11 @@ const Game: NextPage<GamePage> = ({levelConfig}) => {
         <textarea value={exprs} onChange={onExprsChange}/>
         <button onClick={onSubmit}>submit</button>
       </div>
-    </div>
+      <Box>
+        <LambdaDictionary words={levelConfig.information} />
+      </Box>
+    </Box>
+    
   )
 }
 
